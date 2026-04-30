@@ -12,6 +12,8 @@ import {
 import { ContentImage } from "@/components/shared/content-image";
 import { SchemaJsonLd } from "@/components/seo/schema-jsonld";
 import { TaskPostCard } from "@/components/shared/task-post-card";
+import { RichContent, formatRichHtml } from "@/components/shared/rich-content";
+import { TaskPhotoGridLightbox } from "@/components/tasks/task-photo-grid-lightbox";
 import type { SitePost } from "@/lib/site-connector";
 import type { TaskKey } from "@/lib/site-config";
 
@@ -45,9 +47,7 @@ export function DirectoryTaskDetailPage({
   const highlights = Array.isArray(content.highlights)
     ? content.highlights.filter((item): item is string => typeof item === "string")
     : [];
-  const joinedDate = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-    : "";
+  const descriptionHtml = formatRichHtml(description, "Details coming soon.");
   const schemaPayload = {
     "@context": "https://schema.org",
     "@type": task === "profile" ? "Organization" : "LocalBusiness",
@@ -84,7 +84,6 @@ export function DirectoryTaskDetailPage({
                   </p>
                 ) : null}
               </div>
-              {joinedDate ? <p className="text-sm text-slate-200">Joined in {joinedDate}</p> : null}
             </div>
           </div>
 
@@ -124,7 +123,7 @@ export function DirectoryTaskDetailPage({
               <div id="about-me" className="grid scroll-mt-24 gap-8 lg:grid-cols-[1.35fr_0.9fr]">
                 <div>
                   <h2 className="text-[2rem] font-semibold leading-none">About Me</h2>
-                  <p className="mt-6 text-[1.02rem] leading-8 text-slate-600">{description}</p>
+                  <RichContent html={descriptionHtml} className="mt-6 text-[1.02rem] leading-8 text-slate-600" />
                   {highlights.length ? (
                     <>
                       <h3 className="mt-10 text-4xl font-semibold leading-none text-slate-900">Activities</h3>
@@ -186,13 +185,7 @@ export function DirectoryTaskDetailPage({
 
               <div id="photos" className="scroll-mt-24">
                 <h3 className="text-2xl font-semibold text-slate-900">Photos</h3>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {images.slice(0, 6).map((image) => (
-                    <div key={image} className="relative h-32 overflow-hidden rounded-xl border border-slate-200">
-                      <ContentImage src={image} alt={`${post.title} photo`} fill className="object-cover" />
-                    </div>
-                  ))}
-                </div>
+                <TaskPhotoGridLightbox images={images} title={post.title} />
               </div>
 
               {mapEmbedUrl ? (

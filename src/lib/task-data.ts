@@ -10,6 +10,10 @@ const getPostType = (post: SitePost) => {
   const content = post.content && typeof post.content === "object" ? post.content : {};
   const explicit = typeof (content as any).type === "string" ? String((content as any).type) : "";
   if (explicit) return explicit;
+  const directType = typeof (post as any).type === "string" ? String((post as any).type) : "";
+  if (directType) return directType;
+  const taskType = typeof (post as any).task === "string" ? String((post as any).task) : "";
+  if (taskType) return taskType;
   if (Array.isArray(post.tags)) {
     const tag = post.tags.find((item) => typeof item === "string");
     if (tag) return tag;
@@ -30,7 +34,6 @@ export const fetchTaskPosts = async (
   limit = 8,
   options?: { allowMockFallback?: boolean; fresh?: boolean }
 ) => {
-  const allowMockFallback = options?.allowMockFallback ?? process.env.NEXT_PUBLIC_USE_MOCK_CONTENT === "true";
   const type = getTaskContentType(task);
   const pickTaskPosts = (feed: SiteFeed<SitePost> | null) => {
     if (!feed) return [];
@@ -40,8 +43,10 @@ export const fetchTaskPosts = async (
           typeof (post as any).status === "string"
             ? String((post as any).status).toUpperCase()
             : "";
-        if (status && status !== "PUBLISHED") return false;
-        if (getPostType(post) !== type) return false;
+        if (status && !["PUBLISHED", "ACTIVE", "APPROVED", "LIVE"].includes(status)) return false;
+        const postType = getPostType(post).toLowerCase();
+        const normalizedType = type.toLowerCase();
+        if (postType && postType !== normalizedType) return false;
         const content = post.content && typeof post.content === "object" ? post.content : {};
         const category = typeof (content as any).category === "string" ? (content as any).category : "";
         return !category || isValidCategory(category);
@@ -56,11 +61,9 @@ export const fetchTaskPosts = async (
 
     const freshFeed = await fetchSiteFeed(limit * 6, { fresh: true });
     const filtered = pickTaskPosts(freshFeed);
-    return filtered.length || !allowMockFallback
-      ? filtered
-      : getMockPostsForTask(task).slice(0, limit);
+    return filtered;
   } catch {
-    return allowMockFallback ? getMockPostsForTask(task).slice(0, limit) : [];
+    return [];
   }
 };
 

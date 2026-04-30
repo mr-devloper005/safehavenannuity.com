@@ -49,8 +49,8 @@ export const siteTaskDefinitions = [
   },
   {
     key: 'comment',
-    label: 'Blog Commenting',
-    route: '/blog',
+    label: 'Commenting',
+    route: '/community',
     description: 'Commentary and response posts.',
     contentType: 'article',
     enabled: false,
@@ -81,7 +81,7 @@ export const siteTaskViews = {
   profile: '/profile',
   social: '/community',
   sbm: '/sbm',
-  comment: '/blog',
+  comment: '/community',
   pdf: '/pdf',
   org: '/team',
 } as const
