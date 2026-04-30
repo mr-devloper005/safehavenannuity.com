@@ -13,11 +13,12 @@ import {
   Sparkles,
   Star,
   TrendingUp,
-  User,
 } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
+import { TaskPostCard } from '@/components/shared/task-post-card'
 import { SITE_CONFIG } from '@/lib/site-config'
+import { fetchTaskPosts } from '@/lib/task-data'
 
 export const HOME_PAGE_OVERRIDE_ENABLED = true
 
@@ -88,25 +89,6 @@ const TESTIMONIALS = [
   },
 ]
 
-const BLOG_POSTS = [
-  {
-    date: 'Oct 5, 2025',
-    author: 'Eddie Lake',
-    title: 'Top 5 Signs Your Annuity Plan Needs A Review',
-    excerpt: 'Is your annuity working as hard as it should? Here are the warning signs you should not ignore.',
-    image:
-      'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    date: 'Oct 20, 2025',
-    author: 'James Hall',
-    title: 'Choosing The Right Business Listing For Your Needs',
-    excerpt: 'Learn how to evaluate providers and pick the right fit based on your goals, budget, and timeline.',
-    image:
-      'https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=900&q=80',
-  },
-]
-
 const FAQS = [
   {
     q: 'How often should I review my annuity plan?',
@@ -137,6 +119,8 @@ function StarRow({ count = 5 }: { count?: number }) {
 }
 
 export async function HomePageOverride() {
+  const listingPosts = await fetchTaskPosts('listing', 6, { allowMockFallback: false, fresh: true }).catch(() => [])
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <NavbarShell />
@@ -316,6 +300,37 @@ export async function HomePageOverride() {
         </div>
       </section>
 
+      {/* FEATURED LISTINGS */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-6">
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-widest text-slate-500">Featured Listings</div>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#1B2A5B] sm:text-4xl">
+              Verified Businesses You Can Trust
+            </h2>
+          </div>
+          <Link
+            href="/listings"
+            className="inline-flex items-center gap-2 rounded-full bg-[#FFC531] px-5 py-2.5 text-sm font-bold text-[#1B2A5B] hover:bg-[#f3b91d]"
+          >
+            View all listings
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {listingPosts.length ? (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {listingPosts.map((post) => (
+              <TaskPostCard key={post.id} post={post} href={`/listings/${post.slug}`} taskKey="listing" />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-10 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center text-slate-600">
+            Listings will appear here as soon as they are available.
+          </div>
+        )}
+      </section>
+
       {/* FAQ + TESTIMONIALS */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
@@ -376,56 +391,6 @@ export async function HomePageOverride() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* BLOG / TIPS */}
-      <section className="bg-[#F5F1E8]">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-600">
-              Latest Tips &amp; Insights
-            </div>
-            <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-[#1B2A5B] sm:text-4xl">
-              Stay Ahead With Smart Annuity Advice From Industry Experts
-            </h2>
-          </div>
-
-          <div className="mt-12 grid gap-8 md:grid-cols-2">
-            {BLOG_POSTS.map((post) => (
-              <article
-                key={post.title}
-                className="overflow-hidden rounded-3xl bg-white shadow-sm border border-slate-100 hover:shadow-lg transition-all"
-              >
-                <div className="flex flex-col sm:flex-row">
-                  <div className="relative h-48 sm:h-auto sm:w-2/5">
-                    <img src={post.image} alt={post.title} className="h-full w-full object-cover" />
-                  </div>
-                  <div className="flex-1 p-6">
-                    <div className="flex items-center gap-3 text-xs text-slate-500">
-                      <span className="inline-flex items-center gap-1">
-                        <Calendar className="h-3.5 w-3.5" />
-                        {post.date}
-                      </span>
-                      <span className="inline-flex items-center gap-1">
-                        <User className="h-3.5 w-3.5" />
-                        {post.author}
-                      </span>
-                    </div>
-                    <h3 className="mt-3 text-lg font-bold leading-snug text-[#1B2A5B]">{post.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600 line-clamp-2">{post.excerpt}</p>
-                    <Link
-                      href="/blog"
-                      className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#FFC531] px-4 py-2 text-xs font-bold text-[#1B2A5B] hover:bg-[#f3b91d]"
-                    >
-                      Read More
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            ))}
           </div>
         </div>
       </section>

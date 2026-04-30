@@ -22,7 +22,6 @@ const NAV_LINKS = [
       { label: 'Featured', href: '/listings?featured=1' },
     ],
   },
-  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ]
 

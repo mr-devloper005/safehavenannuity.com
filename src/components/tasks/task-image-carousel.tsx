@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ContentImage } from "@/components/shared/content-image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function TaskImageCarousel({ images }: { images: string[] }) {
@@ -13,6 +13,7 @@ export function TaskImageCarousel({ images }: { images: string[] }) {
   });
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -26,6 +27,17 @@ export function TaskImageCarousel({ images }: { images: string[] }) {
       emblaApi.off("select", onSelect);
     };
   }, [emblaApi]);
+
+  useEffect(() => {
+    if (!activeImage) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveImage(null);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [activeImage]);
 
   if (!images.length) return null;
 
@@ -46,6 +58,12 @@ export function TaskImageCarousel({ images }: { images: string[] }) {
                   intrinsicWidth={1440}
                   intrinsicHeight={900}
                   priority={index === 0}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-0 z-10 cursor-zoom-in"
+                  aria-label={`Open image ${index + 1} in popup`}
+                  onClick={() => setActiveImage(src)}
                 />
               </div>
             </div>
@@ -77,6 +95,35 @@ export function TaskImageCarousel({ images }: { images: string[] }) {
           </Button>
         </>
       )}
+
+      {activeImage ? (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4"
+          onClick={() => setActiveImage(null)}
+        >
+          <button
+            type="button"
+            aria-label="Close popup"
+            className="absolute right-4 top-4 rounded-full bg-white/15 p-2 text-white hover:bg-white/25"
+            onClick={() => setActiveImage(null)}
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <div
+            className="relative h-full w-full max-w-6xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <ContentImage
+              src={activeImage}
+              alt="Expanded image preview"
+              fill
+              className="object-contain"
+              sizes="100vw"
+              priority
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

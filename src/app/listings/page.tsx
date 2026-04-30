@@ -43,7 +43,7 @@ const BENEFITS = [
 ];
 
 export default async function ListingsPage() {
-  const posts = await fetchTaskPosts("listing", 12, { allowMockFallback: true }).catch(() => []);
+  const posts = await fetchTaskPosts("listing", 12, { allowMockFallback: false }).catch(() => []);
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
