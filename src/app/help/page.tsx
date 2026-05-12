@@ -6,9 +6,6 @@ import {
   CreditCard,
   HelpCircle,
   LifeBuoy,
-  Mail,
-  MessageCircle,
-  Phone,
   Search,
   Settings,
   ShieldCheck,
@@ -190,48 +187,6 @@ export default function HelpPage() {
                 <p className="mt-4 text-sm leading-7 text-slate-600">{faq.a}</p>
               </details>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact prompt */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-3xl bg-white p-8 shadow-sm border border-slate-100 text-center hover:shadow-xl transition-all">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFC531]/20">
-              <Phone className="h-7 w-7 text-[#1B2A5B]" />
-            </div>
-            <h3 className="mt-5 text-lg font-bold text-[#1B2A5B]">Call Support</h3>
-            <p className="mt-2 text-sm text-slate-600">Speak with a real person during business hours.</p>
-            <a href="tel:9075550101" className="mt-4 inline-block text-sm font-bold text-[#1B2A5B] hover:underline">
-              (907) 555-0101
-            </a>
-          </div>
-          <div className="rounded-3xl bg-[#1B2A5B] p-8 text-center text-white shadow-lg">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFC531]">
-              <MessageCircle className="h-7 w-7 text-[#1B2A5B]" />
-            </div>
-            <h3 className="mt-5 text-lg font-bold">Live Chat</h3>
-            <p className="mt-2 text-sm text-slate-300">Chat with our support team in real-time.</p>
-            <Link
-              href="/contact"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#FFC531] px-5 py-2 text-sm font-bold text-[#1B2A5B] hover:bg-[#f3b91d]"
-            >
-              Start Chat
-            </Link>
-          </div>
-          <div className="rounded-3xl bg-white p-8 shadow-sm border border-slate-100 text-center hover:shadow-xl transition-all">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFC531]/20">
-              <Mail className="h-7 w-7 text-[#1B2A5B]" />
-            </div>
-            <h3 className="mt-5 text-lg font-bold text-[#1B2A5B]">Email Us</h3>
-            <p className="mt-2 text-sm text-slate-600">Send us a message any time and we&apos;ll respond quickly.</p>
-            <a
-              href={`mailto:hello@${SITE_CONFIG.domain}`}
-              className="mt-4 inline-block text-sm font-bold text-[#1B2A5B] hover:underline break-all"
-            >
-              hello@{SITE_CONFIG.domain}
-            </a>
           </div>
         </div>
       </section>

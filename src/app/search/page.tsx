@@ -20,6 +20,13 @@ const compactText = (value: unknown) => {
   return stripHtml(value).replace(/\s+/g, " ").trim().toLowerCase();
 };
 
+const toTitleCase = (value: string) =>
+  value
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
 export default async function SearchPage({
   searchParams,
 }: {
@@ -43,6 +50,21 @@ export default async function SearchPage({
       : useMaster
         ? []
         : SITE_CONFIG.tasks.flatMap((task) => getMockPostsForTask(task.key));
+
+  const availableCategories = Array.from(
+    new Set(
+      posts.flatMap((post) => {
+        const content = post.content && typeof post.content === "object" ? post.content : {};
+        const contentCategory = compactText((content as any).category);
+        const tagCategories = Array.isArray(post.tags)
+          ? post.tags.map((tag) => compactText(tag))
+          : [];
+        return [contentCategory, ...tagCategories].filter(Boolean);
+      })
+    )
+  )
+    .sort((a, b) => a.localeCompare(b))
+    .slice(0, 150);
 
   const filtered = posts.filter((post) => {
     const content = post.content && typeof post.content === "object" ? post.content : {};
@@ -81,7 +103,6 @@ export default async function SearchPage({
       actions={
         <form action="/search" className="flex w-full gap-2 sm:w-auto">
           <input type="hidden" name="master" value="1" />
-          {category ? <input type="hidden" name="category" value={category} /> : null}
           {task ? <input type="hidden" name="task" value={task} /> : null}
           <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -92,6 +113,20 @@ export default async function SearchPage({
               className="h-11 pl-9"
             />
           </div>
+          <Input
+            name="category"
+            defaultValue={category}
+            list="search-categories"
+            placeholder="Category"
+            className="h-11 w-40 sm:w-52"
+          />
+          <datalist id="search-categories">
+            {availableCategories.map((item) => (
+              <option key={item} value={item}>
+                {toTitleCase(item)}
+              </option>
+            ))}
+          </datalist>
           <Button type="submit" className="h-11">
             Search
           </Button>
