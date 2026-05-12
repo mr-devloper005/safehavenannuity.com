@@ -6,11 +6,9 @@ import {
   Calendar,
   Clock,
   HeartHandshake,
-  Phone,
   PiggyBank,
   Shield,
   ShieldCheck,
-  Sparkles,
   Star,
   TrendingUp,
 } from 'lucide-react'
@@ -133,11 +131,7 @@ export async function HomePageOverride() {
         </div>
         <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-24">
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#1B2A5B]/15 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#1B2A5B]">
-              <Sparkles className="h-3.5 w-3.5 text-[#FFC531]" />
-              No.1 Annuity & Financial Services
-            </div>
-            <h1 className="mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-[#1B2A5B] sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight text-[#1B2A5B] sm:text-5xl lg:text-6xl">
               Secure, Affordable
               <br />
               &amp; Guaranteed Income
@@ -335,19 +329,7 @@ export async function HomePageOverride() {
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <div className="rounded-3xl bg-[#1B2A5B] p-8 text-white">
-              <div className="text-[11px] font-semibold uppercase tracking-widest text-[#FFC531]">Still Have Questions? We Are Here To Help</div>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-[#FFC531] px-5 py-2.5 text-sm font-bold text-[#1B2A5B]">
-                  Contact Us
-                </Link>
-                <a href={`tel:2343454574`} className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-2.5 text-sm font-semibold text-white">
-                  <Phone className="h-4 w-4" />
-                  (234) 345-4574
-                </a>
-              </div>
-            </div>
-            <div className="mt-5 space-y-3">
+            <div className="space-y-3">
               {FAQS.map((faq, i) => (
                 <details
                   key={i}
@@ -390,40 +372,6 @@ export async function HomePageOverride() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA BANNER */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#1B2A5B] via-[#26366E] to-[#1B2A5B] p-10 sm:p-14">
-          <div className="absolute -top-20 -right-20 h-60 w-60 rounded-full bg-[#FFC531]/20 blur-3xl" />
-          <div className="absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-white/10 blur-3xl" />
-          <div className="relative z-10 flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-                Need Fast Annuity Advice? We&apos;re Ready 24/7!
-              </h2>
-              <p className="mt-4 text-slate-300">
-                Don&apos;t let retirement worries keep you up at night. Our expert advisors are available
-                day and night to give you clear answers and trusted guidance.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-[#FFC531] px-6 py-3.5 text-sm font-bold text-[#1B2A5B] hover:bg-[#f3b91d]"
-              >
-                <Phone className="h-4 w-4" />
-                Call Now
-              </Link>
-              <a
-                href={`tel:9079550101`}
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/5 px-6 py-3.5 text-sm font-bold text-white backdrop-blur hover:bg-white/10"
-              >
-                (907) 555-0101
-              </a>
             </div>
           </div>
         </div>
