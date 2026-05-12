@@ -22,22 +22,22 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      { source: '/listings', destination: '/listing', permanent: true },
-      { source: '/listings/:slug*', destination: '/listing/:slug*', permanent: true },
-      { source: '/classifieds', destination: '/classified', permanent: true },
-      { source: '/classifieds/:slug*', destination: '/classified/:slug*', permanent: true },
-      { source: '/articles', destination: '/article', permanent: true },
-      { source: '/articles/:slug*', destination: '/article/:slug*', permanent: true },
-      { source: '/images', destination: '/image', permanent: true },
-      { source: '/images/:slug*', destination: '/image/:slug*', permanent: true },
+      { source: '/listing', destination: '/listings', permanent: true },
+      { source: '/listing/:slug*', destination: '/listings/:slug*', permanent: true },
+      { source: '/classified', destination: '/classifieds', permanent: true },
+      { source: '/classified/:slug*', destination: '/classifieds/:slug*', permanent: true },
+      { source: '/article', destination: '/articles', permanent: true },
+      { source: '/article/:slug*', destination: '/articles/:slug*', permanent: true },
+      { source: '/image', destination: '/images', permanent: true },
+      { source: '/image/:slug*', destination: '/images/:slug*', permanent: true },
       {
-        source: '/users',
-        destination: '/user',
+        source: '/user',
+        destination: '/profile',
         permanent: true,
       },
       {
-        source: '/users/:slug*',
-        destination: '/user/:slug*',
+        source: '/user/:slug*',
+        destination: '/profile/:slug*',
         permanent: true,
       },
     ];
@@ -45,22 +45,6 @@ const nextConfig = {
 
   async rewrites() {
     return [
-      { source: '/listing', destination: '/listings' },
-      { source: '/listing/:slug*', destination: '/listings/:slug*' },
-      { source: '/classified', destination: '/classifieds' },
-      { source: '/classified/:slug*', destination: '/classifieds/:slug*' },
-      { source: '/article', destination: '/articles' },
-      { source: '/article/:slug*', destination: '/articles/:slug*' },
-      { source: '/image', destination: '/images' },
-      { source: '/image/:slug*', destination: '/images/:slug*' },
-      {
-        source: '/user',
-        destination: '/profile',
-      },
-      {
-        source: '/user/:slug*',
-        destination: '/profile/:slug*',
-      },
     ];
   },
 

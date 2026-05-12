@@ -2,44 +2,10 @@
 
 import { FormEvent, useState } from 'react'
 import Link from 'next/link'
-import { Clock, Facebook, Instagram, Linkedin, Mail, MapPin, MessageCircle, Phone, Send, Twitter } from 'lucide-react'
+import { MessageCircle, Send } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
-import { SITE_CONFIG } from '@/lib/site-config'
 
-const CONTACT_ITEMS = [
-  {
-    icon: Phone,
-    title: 'Call Us',
-    lines: ['(907) 555-0101', '(234) 345-4574'],
-    sub: 'Mon – Fri, 9am to 6pm',
-  },
-  {
-    icon: Mail,
-    title: 'Email Us',
-    lines: [process.env.NEXT_PUBLIC_CONTACT_EMAIL_1 || 'hello@safehavenannuity.com', process.env.NEXT_PUBLIC_CONTACT_EMAIL_2 || 'support@safehavenannuity.com'],
-    sub: 'We respond within 24 hours',
-  },
-  {
-    icon: MapPin,
-    title: 'Visit Us',
-    lines: ['2525 Dancing Dove Lane', 'Long Island City, NY 11101'],
-    sub: 'Schedule an appointment',
-  },
-  {
-    icon: Clock,
-    title: 'Business Hours',
-    lines: ['Mon – Fri: 9am – 6pm', 'Sat: 9am – 3pm'],
-    sub: '24/7 Emergency Line Available',
-  },
-]
-
-const SOCIAL = [
-  { icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
-  { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
-  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-  { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-]
 
 export default function ContactPage() {
   const [name, setName] = useState('')
@@ -91,29 +57,6 @@ export default function ContactPage() {
             Have a question about our listings? Looking to add your business? Need retirement advice?
             Our team is ready to help — pick the method that works best for you.
           </p>
-        </div>
-      </section>
-
-      {/* Contact cards */}
-      <section className="mx-auto -mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative z-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {CONTACT_ITEMS.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-3xl bg-white p-7 shadow-lg border border-slate-100 hover:shadow-2xl transition-all"
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFC531]/20">
-                <item.icon className="h-7 w-7 text-[#1B2A5B]" />
-              </div>
-              <h3 className="mt-5 text-lg font-bold text-[#1B2A5B]">{item.title}</h3>
-              <div className="mt-3 space-y-1">
-                {item.lines.map((l) => (
-                  <p key={l} className="text-sm font-semibold text-slate-700">{l}</p>
-                ))}
-              </div>
-              <p className="mt-3 text-xs text-slate-500">{item.sub}</p>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -217,27 +160,6 @@ export default function ContactPage() {
               />
             </div>
 
-            <div className="rounded-[2rem] bg-[#1B2A5B] p-8 text-white shadow-lg">
-              <h3 className="text-xl font-bold">Connect On Social</h3>
-              <p className="mt-2 text-sm text-slate-300">
-                Follow along for tips, provider spotlights, and the latest updates.
-              </p>
-              <div className="mt-5 flex gap-3">
-                {SOCIAL.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
-                    className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-[#FFC531] hover:bg-[#FFC531] hover:text-[#1B2A5B] transition-colors"
-                  >
-                    <s.icon className="h-5 w-5" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
             <Link
               href="/help"
               className="block rounded-[2rem] border border-slate-200 bg-[#F5F1E8] p-8 hover:shadow-lg transition-all"
@@ -257,3 +179,4 @@ export default function ContactPage() {
     </div>
   )
 }
+
